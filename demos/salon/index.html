@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Студия «Мята» — онлайн-запись (демо)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#121212; --blush:#f6cfd8; --blush-2:#fbe8ed; --mint:#9fd8c2; --grey:#8c8c8c; --line:#2a2a2a; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--black); color:#fff; font:400 16px/1.5 'Manrope',system-ui,sans-serif; }
+  button { font:inherit; cursor:pointer; color:inherit; }
+  .demo-bar { background:var(--blush); color:var(--black); text-align:center; font-size:13px; padding:7px 12px; }
+  .demo-bar a { color:inherit; font-weight:700; }
+  .layout { display:grid; grid-template-columns:1fr 1.15fr; min-height:calc(100vh - 34px); }
+
+  .side { position:relative; padding:40px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; border-right:1px solid var(--line); }
+  .logo { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:700; letter-spacing:.02em; }
+  .logo span { color:var(--mint); }
+  .side h1 { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(46px,6vw,92px); line-height:.95; margin:0; position:relative; z-index:1; }
+  .side h1 i { color:var(--blush); }
+  .side p { color:var(--grey); max-width:24rem; position:relative; z-index:1; }
+  .blob { position:absolute; width:420px; height:420px; right:-150px; top:14%; border-radius:50%; background:radial-gradient(circle at 30% 30%, var(--blush), #c9788c 75%); opacity:.8; animation:float 9s ease-in-out infinite; }
+  .blob.b2 { width:200px; height:200px; right:18%; top:auto; bottom:-70px; background:radial-gradient(circle at 30% 30%, var(--mint), #4f9e84 75%); opacity:.7; animation-duration:11s; }
+  @keyframes float { 50% { transform:translate(-20px,24px) rotate(8deg); } }
+  .contacts { display:flex; gap:24px; color:var(--grey); font-size:14px; position:relative; z-index:1; }
+
+  .book { padding:40px clamp(20px,4vw,56px); display:flex; flex-direction:column; }
+  .progress { display:flex; gap:6px; margin-bottom:30px; }
+  .progress i { flex:1; height:4px; border-radius:4px; background:var(--line); transition:background .3s; }
+  .progress i.on { background:var(--blush); }
+  .step-label { color:var(--grey); font-size:14px; margin:0 0 6px; }
+  .book h2 { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:40px; margin:0 0 22px; }
+  .opts { display:grid; gap:10px; }
+  .opt { text-align:left; background:transparent; border:1px solid var(--line); border-radius:16px; padding:16px 18px; display:flex; justify-content:space-between; align-items:center; gap:14px; transition:border-color .2s, background .2s; }
+  .opt:hover { border-color:var(--blush); }
+  .opt.sel { background:var(--blush); color:var(--black); border-color:var(--blush); }
+  .opt small { display:block; color:var(--grey); font-size:13px; }
+  .opt.sel small { color:#555; }
+  .opt b { white-space:nowrap; }
+  .ava { width:44px; height:44px; border-radius:50%; display:grid; place-items:center; font-weight:700; color:var(--black); flex-shrink:0; }
+  .who { display:flex; gap:14px; align-items:center; }
+  .stars { color:var(--mint); font-size:13px; }
+
+  .days { display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:22px; scrollbar-width:thin; }
+  .day { flex:0 0 62px; border:1px solid var(--line); background:transparent; border-radius:14px; padding:10px 0; text-align:center; }
+  .day small { display:block; color:var(--grey); font-size:12px; }
+  .day b { font-size:20px; }
+  .day.sel { background:var(--blush); color:var(--black); border-color:var(--blush); }
+  .day.sel small { color:#555; }
+  .times { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .time { border:1px solid var(--line); background:transparent; border-radius:12px; padding:11px 0; }
+  .time:disabled { color:#444; text-decoration:line-through; cursor:not-allowed; }
+  .time.sel { background:var(--mint); color:var(--black); border-color:var(--mint); }
+
+  label { display:block; color:var(--grey); font-size:14px; margin:14px 0 6px; }
+  input { width:100%; background:transparent; border:1px solid var(--line); border-radius:14px; padding:14px 16px; color:#fff; font:inherit; }
+  input:focus { outline:none; border-color:var(--blush); }
+  .summary { background:#1c1c1c; border-radius:18px; padding:18px; margin-bottom:6px; display:grid; gap:6px; font-size:15px; }
+  .summary div { display:flex; justify-content:space-between; gap:12px; }
+  .summary span { color:var(--grey); }
+
+  .nav { display:flex; justify-content:space-between; margin-top:auto; padding-top:28px; gap:12px; }
+  .back { background:transparent; border:0; color:var(--grey); }
+  .next { background:var(--blush); color:var(--black); border:0; border-radius:99px; padding:15px 30px; font-weight:700; }
+  .next:disabled { opacity:.3; cursor:not-allowed; }
+  .wa { background:#1f2c25; border:1px solid #2f4a3b; border-radius:16px; padding:16px; white-space:pre-wrap; font-size:14px; margin:14px 0; }
+  .done-ic { width:64px; height:64px; border-radius:50%; background:var(--mint); color:var(--black); display:grid; place-items:center; font-size:30px; margin-bottom:16px; }
+  .fade { animation:fade .35s ease; }
+  @keyframes fade { from { opacity:0; transform:translateY(10px); } }
+
+  @media (max-width:860px) {
+    .layout { grid-template-columns:1fr; }
+    .side { padding:28px 20px 34px; border-right:0; border-bottom:1px solid var(--line); gap:26px; }
+    .blob { width:220px; height:220px; right:-110px; top:4%; }
+    .blob.b2 { width:120px; height:120px; right:-30px; bottom:-50px; }
+    .book { padding:28px 20px 40px; }
+    .times { grid-template-columns:repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="demo-bar">Демо-проект, студия вымышленная. Сделано: <a href="../../">асан.dev</a></div>
+<div class="layout">
+  <aside class="side">
+    <div class="blob"></div><div class="blob b2"></div>
+    <div class="logo">мята<span>.</span></div>
+    <div>
+      <h1>Маникюр,<br>брови <i>и&nbsp;ресницы</i></h1>
+      <p>Запишитесь за минуту, без звонков и переписки. Свободное время видно сразу.</p>
+    </div>
+    <div class="contacts"><span>ул. Примерная, 5</span><span>10:00–21:00</span></div>
+  </aside>
+
+  <main class="book">
+    <div class="progress" id="progress"></div>
+    <div id="stage" class="fade"></div>
+    <div class="nav" id="nav">
+      <button class="back" id="back">← Назад</button>
+      <button class="next" id="next">Дальше</button>
+    </div>
+  </main>
+</div>
+
+<script>
+const SERVICES = [
+  { name:'Маникюр с покрытием', dur:'1 ч 30 мин', price:9000 },
+  { name:'Маникюр без покрытия', dur:'50 мин', price:5000 },
+  { name:'Педикюр с покрытием', dur:'1 ч 40 мин', price:11000 },
+  { name:'Коррекция и окрашивание бровей', dur:'45 мин', price:6000 },
+  { name:'Наращивание ресниц, 2D', dur:'2 ч', price:14000 }
+];
+const MASTERS = [
+  { name:'Любой свободный мастер', note:'Покажем больше времени', c:'#ffffff', i:'★' },
+  { name:'Алия', note:'Маникюр, педикюр · 6 лет', c:'#f6cfd8', i:'А', r:'4.9' },
+  { name:'Дана', note:'Маникюр, дизайн · 4 года', c:'#9fd8c2', i:'Д', r:'4.8' },
+  { name:'Камила', note:'Брови и ресницы · 5 лет', c:'#f3dc9b', i:'К', r:'5.0' }
+];
+const TIMES = ['10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'];
+const DOW = ['вс','пн','вт','ср','чт','пт','сб'];
+const MON = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+const fmt = n => n.toLocaleString('ru-RU') + ' ₸';
+
+const st = { step:0, service:null, master:null, day:0, time:null, name:'', phone:'' };
+const days = Array.from({ length:14 }, (_, i) => { const d = new Date(); d.setDate(d.getDate()+i); return d; });
+
+// «занятые» слоты: детерминированно от даты и мастера, чтобы картинка не прыгала
+function busy(dayIdx, t) {
+  const seed = (dayIdx * 31 + TIMES.indexOf(t) * 7 + (st.master || 0) * 13) % 10;
+  if (dayIdx === 0 && +t.slice(0,2) <= new Date().getHours()) return true;
+  return seed < 3;
+}
+
+const STEPS = [
+  { label:'Шаг 1 из 4', title:'Что делаем?', ok:() => st.service !== null, html:() =>
+    `<div class="opts">${SERVICES.map((s,i) => `<button class="opt ${st.service===i?'sel':''}" data-k="service" data-v="${i}"><span>${s.name}<small>${s.dur}</small></span><b>${fmt(s.price)}</b></button>`).join('')}</div>` },
+  { label:'Шаг 2 из 4', title:'К кому?', ok:() => st.master !== null, html:() =>
+    `<div class="opts">${MASTERS.map((m,i) => `<button class="opt ${st.master===i?'sel':''}" data-k="master" data-v="${i}"><span class="who"><span class="ava" style="background:${m.c}">${m.i}</span><span>${m.name}<small>${m.note}</small></span></span>${m.r ? `<span class="stars">★ ${m.r}</span>` : ''}</button>`).join('')}</div>` },
+  { label:'Шаг 3 из 4', title:'Когда удобно?', ok:() => st.time !== null, html:() =>
+    `<div class="days">${days.map((d,i) => `<button class="day ${st.day===i?'sel':''}" data-k="day" data-v="${i}"><small>${i===0?'сегодня':DOW[d.getDay()]}</small><b>${d.getDate()}</b><small>${MON[d.getMonth()]}</small></button>`).join('')}</div>
+     <div class="times">${TIMES.map(t => `<button class="time ${st.time===t?'sel':''}" data-k="time" data-v="${t}" ${busy(st.day,t)?'disabled':''}>${t}</button>`).join('')}</div>` },
+  { label:'Шаг 4 из 4', title:'Почти готово', ok:() => st.name.trim().length > 1 && st.phone.replace(/\D/g,'').length >= 11, html:() => {
+      const d = days[st.day];
+      return `<div class="summary">
+        <div><span>Услуга</span><b>${SERVICES[st.service].name}</b></div>
+        <div><span>Мастер</span><b>${MASTERS[st.master].name}</b></div>
+        <div><span>Когда</span><b>${d.getDate()} ${MON[d.getMonth()]}, ${st.time}</b></div>
+        <div><span>Стоимость</span><b>${fmt(SERVICES[st.service].price)}</b></div></div>
+        <label>Ваше имя</label><input id="nm" value="${st.name}" placeholder="Например, Айгерим">
+        <label>Телефон</label><input id="ph" value="${st.phone}" inputmode="tel" placeholder="+7 7__ ___ __ __">`; } }
+];
+
+function render() {
+  progress.innerHTML = STEPS.map((_, i) => `<i class="${i <= st.step ? 'on' : ''}"></i>`).join('');
+  if (st.step >= STEPS.length) return renderDone();
+  const s = STEPS[st.step];
+  stage.className = ''; void stage.offsetWidth; stage.className = 'fade';
+  stage.innerHTML = `<p class="step-label">${s.label}</p><h2>${s.title}</h2>${s.html()}`;
+  back.style.visibility = st.step ? 'visible' : 'hidden';
+  next.textContent = st.step === STEPS.length - 1 ? 'Записаться' : 'Дальше';
+  next.disabled = !s.ok();
+  const nm = document.getElementById('nm'), ph = document.getElementById('ph');
+  if (nm) {
+    nm.oninput = () => { st.name = nm.value; next.disabled = !s.ok(); };
+    ph.oninput = () => {
+      let d = ph.value.replace(/\D/g,''); if (d.startsWith('8')) d = '7' + d.slice(1); if (d && !d.startsWith('7')) d = '7' + d; d = d.slice(0,11);
+      const p = [d.slice(1,4), d.slice(4,7), d.slice(7,9), d.slice(9,11)];
+      ph.value = d ? '+7 ' + p.filter(Boolean).join(' ') : '';
+      st.phone = ph.value; next.disabled = !s.ok();
+    };
+  }
+}
+function renderDone() {
+  const d = days[st.day];
+  const text = `Новая запись 💅\n${SERVICES[st.service].name}\nМастер: ${MASTERS[st.master].name}\n${d.getDate()} ${MON[d.getMonth()]}, ${st.time}\nКлиент: ${st.name}, ${st.phone}`;
+  stage.innerHTML = `<div class="fade"><div class="done-ic">✓</div><h2>Вы записаны!</h2>
+    <p style="color:var(--grey)">Напомним за день до визита. В настоящем сайте администратор сразу получит в WhatsApp вот такое сообщение:</p>
+    <div class="wa">${text.replace(/</g,'&lt;')}</div></div>`;
+  back.style.visibility = 'hidden';
+  next.textContent = 'Записаться ещё раз'; next.disabled = false;
+}
+
+stage.onclick = e => {
+  const b = e.target.closest('button[data-k]'); if (!b || b.disabled) return;
+  const k = b.dataset.k, v = b.dataset.v;
+  st[k] = k === 'time' ? v : +v;
+  if (k === 'day' || k === 'master') st.time = null;
+  render();
+};
+next.onclick = () => {
+  if (st.step >= STEPS.length) { Object.assign(st, { step:0, service:null, master:null, day:0, time:null }); return render(); }
+  st.step++; render();
+};
+back.onclick = () => { st.step = Math.max(0, st.step - 1); render(); };
+render();
+</script>
+</body>
+</html>

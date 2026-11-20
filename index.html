@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Асан Асемов — сайты и Telegram-боты</title>
+  <meta name="description" content="Делаю сайты, лендинги и Telegram-ботов для бизнеса в Казахстане. Первый вариант через 2–3 дня.">
+  <meta property="og:title" content="Асан Асемов — сайты и Telegram-боты">
+  <meta property="og:description" content="Лендинги, сайты, боты для записи и заказов.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="logo" href="#">асан<span>.</span>dev</a>
+  <nav>
+    <a href="#price">Прайс</a>
+    <a href="#work">Работы</a>
+    <a class="nav-cta" href="https://wa.me/77762377599" target="_blank" rel="noopener">WhatsApp</a>
+  </nav>
+</header>
+
+<!-- 1. Заголовок разлетается по буквам при скролле вниз и собирается при скролле вверх -->
+<section class="hero">
+  <div class="hero-stage">
+    <p class="hero-tag"><span class="pulse"></span>Алматы · <span id="clock">--:--</span> · беру заказы на декабрь</p>
+    <h1 class="shatter" aria-label="Сайты и боты для бизнеса">
+      <span class="line">Сайты</span>
+      <span class="line">и боты<em class="sticker s1">от 3 дней</em></span>
+      <span class="line">для бизнеса</span>
+    </h1>
+    <div class="hero-after">
+      <p class="after-big">которые <mark>приносят заявки</mark>, а не просто висят в интернете</p>
+    </div>
+    <span class="sticker s2">₸</span>
+    <span class="sticker s3">@bot</span>
+    <p class="scroll-hint">листай ↓</p>
+  </div>
+</section>
+
+<!-- 2. Бегущая строка: меняет направление вместе со скроллом -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Лендинги ✦ Telegram-боты ✦ Каталоги ✦ Запись онлайн ✦ Kaspi и WhatsApp ✦ Доработки ✦ </span>
+    <span>Лендинги ✦ Telegram-боты ✦ Каталоги ✦ Запись онлайн ✦ Kaspi и WhatsApp ✦ Доработки ✦ </span>
+  </div>
+</div>
+
+<!-- 3. Прайс: карточки ложатся стопкой -->
+<section id="price" class="price">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <h2>Прайс</h2>
+    <p>Цены за типовую задачу. Точную назову после короткого созвона.</p>
+  </div>
+  <div class="cards">
+    <article class="card c-lime">
+      <div class="card-top"><span class="card-n">01</span><span class="card-days">3–5 дней</span></div>
+      <h3>Лендинг</h3>
+      <p>Одна страница: услуги, цены, отзывы, карта, кнопка WhatsApp. Подключаю домен и хостинг.</p>
+      <div class="card-price">от 60 000 ₸</div>
+    </article>
+    <article class="card c-orange">
+      <div class="card-top"><span class="card-n">02</span><span class="card-days">5–7 дней</span></div>
+      <h3>Telegram-бот</h3>
+      <p>Запись, заказы, ответы на частые вопросы. Заявки приходят вам в WhatsApp, Telegram или Google-таблицу.</p>
+      <div class="card-price">от 80 000 ₸</div>
+    </article>
+    <article class="card c-blue">
+      <div class="card-top"><span class="card-n">03</span><span class="card-days">2–3 недели</span></div>
+      <h3>Сайт с каталогом</h3>
+      <p>Несколько страниц, каталог и админка: цены и фото меняете сами, без программиста.</p>
+      <div class="card-price">от 150 000 ₸</div>
+    </article>
+    <article class="card c-cream">
+      <div class="card-top"><span class="card-n">04</span><span class="card-days">от 1 дня</span></div>
+      <h3>Доработка</h3>
+      <p>Сломалась форма, сайт тормозит, нужна новая страница. Сначала смотрю бесплатно.</p>
+      <div class="card-price">от 15 000 ₸</div>
+    </article>
+  </div>
+  <p class="price-note">Оплата 50/50: половина до старта, половина после сдачи. Две правки входят в цену.</p>
+</section>
+
+<!-- 4. Работы: горизонтальная лента, едет вбок при скролле вниз -->
+<section id="work" class="work">
+  <div class="work-pin">
+    <div class="sec-head light">
+      <span class="sec-num">02</span>
+      <h2>Работы</h2>
+    </div>
+    <div class="work-track">
+      <article class="panel p3">
+        <a class="mock live" href="demos/coffee/" target="_blank" rel="noopener" aria-label="Открыть демо кофейни">
+          <div class="mock-bar"><i></i><i></i><i></i><span>демо · кофейня</span></div>
+          <div class="frame"><iframe src="demos/coffee/" loading="lazy" tabindex="-1" title="Демо кофейни"></iframe></div>
+        </a>
+        <div class="panel-text">
+          <span class="yr">демо · можно потыкать</span>
+          <h3>Кофейня с заказом</h3>
+          <p>Меню, корзина, время самовывоза. Заказ сразу приходит владельцу в WhatsApp.</p>
+          <a class="open" href="demos/coffee/" target="_blank" rel="noopener">Открыть сайт ↗</a>
+        </div>
+      </article>
+      <article class="panel p1">
+        <a class="mock live" href="demos/salon/" target="_blank" rel="noopener" aria-label="Открыть демо салона">
+          <div class="mock-bar"><i></i><i></i><i></i><span>демо · салон</span></div>
+          <div class="frame"><iframe src="demos/salon/" loading="lazy" tabindex="-1" title="Демо салона"></iframe></div>
+        </a>
+        <div class="panel-text">
+          <span class="yr">демо · можно потыкать</span>
+          <h3>Онлайн-запись в салон</h3>
+          <p>Услуга, мастер, дата, свободное время. Клиент записывается за минуту, без звонков.</p>
+          <a class="open" href="demos/salon/" target="_blank" rel="noopener">Открыть сайт ↗</a>
+        </div>
+      </article>
+      <article class="panel p2">
+        <a class="mock live" href="demos/bot/" target="_blank" rel="noopener" aria-label="Открыть демо бота">
+          <div class="mock-bar"><i></i><i></i><i></i><span>демо · бот</span></div>
+          <div class="frame"><iframe src="demos/bot/" loading="lazy" tabindex="-1" title="Демо бота"></iframe></div>
+        </a>
+        <div class="panel-text">
+          <span class="yr">демо · можно потыкать</span>
+          <h3>Бот записи в автосервис</h3>
+          <p>Записывает клиентов, отвечает про цены и адрес, проверяет статус ремонта. Заявки летят владельцу.</p>
+          <a class="open" href="demos/bot/" target="_blank" rel="noopener">Открыть бота ↗</a>
+        </div>
+      </article>
+      <article class="panel p1">
+        <div class="mock">
+          <div class="mock-bar"><i></i><i></i><i></i><span>optomat.kz/catalog</span></div>
+          <div class="mock-body tree">
+            <b>Каталог</b><span>Строительство</span><span class="in">Сухие смеси</span><span class="in2">Цемент М500</span><span class="in">Кровля</span><span>Продукты</span><span class="in">Бакалея</span>
+          </div>
+        </div>
+        <div class="panel-text">
+          <span class="yr">2025–26 · командный проект</span>
+          <h3>Оптомат</h3>
+          <p>B2B-площадка оптовой торговли. Делаю каталог: дерево категорий, характеристики, бренды. Ещё на GitHub: бэкенд магазина и чат на WebSocket.</p>
+          <span class="stack">FastAPI · Next.js · PostgreSQL</span>
+        </div>
+      </article>
+      <article class="panel p4">
+        <div class="panel-text">
+          <span class="yr">следующий</span>
+          <h3>Ваш проект</h3>
+          <p>Здесь может быть сайт вашей кофейни, салона или магазина.</p>
+          <a class="btn" href="#contact">Обсудить →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Как работаю -->
+<section class="steps">
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <h2>Как работаю</h2>
+  </div>
+  <ol>
+    <li><span class="step-n">1</span><div><b>Созвон, 15 минут</b><p>Рассказываете о бизнесе, я называю цену и срок.</p></div></li>
+    <li><span class="step-n">2</span><div><b>Через 2–3 дня — живая ссылка</b><p>Не картинка, а работающий сайт. Открываете с телефона, как ваши клиенты.</p></div></li>
+    <li><span class="step-n">3</span><div><b>Правки и запуск</b><p>Домен, заявки, аналитика. Всё оформлено на ваш аккаунт.</p></div></li>
+    <li><span class="step-n">4</span><div><b>Месяц поддержки</b><p>Что-то сломалось — пишете, я чиню.</p></div></li>
+  </ol>
+</section>
+
+<!-- 6. Контакты -->
+<section id="contact" class="contact">
+  <p class="contact-small">Есть задача?</p>
+  <a class="contact-big" href="https://wa.me/77762377599" target="_blank" rel="noopener">
+    <span class="cb-row">напиши</span>
+    <span class="cb-row">мне <i class="arrow">↗</i></span>
+  </a>
+  <ul class="links">
+    <li><a href="https://wa.me/77762377599" target="_blank" rel="noopener">WhatsApp · +7 776 237 75 99</a></li>
+    <li><a href="https://github.com/Rontyk" target="_blank" rel="noopener">GitHub</a></li>
+  </ul>
+  <footer>© <span id="yr">2026</span> Асан Асемов · сайт написан руками</footer>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

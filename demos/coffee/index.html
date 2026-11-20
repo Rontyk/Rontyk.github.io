@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тёплый угол — кофейня (демо)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --cream:#f6efe4; --cream-2:#ece2d1; --bean:#2b1d14; --bean-2:#4a3426; --terra:#c4622d; --muted:#8a7562; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--cream); color:var(--bean); font:400 16px/1.5 'Golos Text',system-ui,sans-serif; }
+  h1,h2,h3 { font-family:'Playfair Display',Georgia,serif; margin:0; }
+  button { font:inherit; cursor:pointer; }
+  .demo-bar { background:var(--bean); color:var(--cream); text-align:center; font-size:13px; padding:7px 12px; }
+  .demo-bar a { color:#f0b27a; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 20px; }
+
+  header.nav { display:flex; justify-content:space-between; align-items:center; padding:18px 0; }
+  .brand { font-family:'Playfair Display',serif; font-weight:800; font-size:22px; }
+  .brand i { color:var(--terra); font-style:italic; }
+  .nav .hours { font-size:14px; color:var(--muted); }
+  .open-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:#4f9b4f; margin-right:6px; }
+
+  .hero { display:grid; grid-template-columns:1.2fr 1fr; gap:40px; align-items:center; padding:40px 0 70px; }
+  .hero h1 { font-size:clamp(44px,7vw,88px); line-height:.98; letter-spacing:-.02em; }
+  .hero h1 em { color:var(--terra); }
+  .hero p { font-size:18px; color:var(--bean-2); max-width:28rem; margin:22px 0 28px; }
+  .btn { background:var(--bean); color:var(--cream); border:0; border-radius:99px; padding:15px 26px; font-weight:600; font-size:16px; }
+  .btn:hover { background:var(--terra); }
+  .btn.ghost { background:transparent; color:var(--bean); border:1.5px solid var(--bean); margin-left:8px; }
+  .cup { position:relative; aspect-ratio:1; background:var(--terra); border-radius:50% 50% 46% 54% / 55% 45% 55% 45%; display:grid; place-items:center; }
+  .cup svg { width:62%; }
+  .steam path { stroke:var(--cream); stroke-width:5; fill:none; stroke-linecap:round; opacity:.8; animation:steam 3s ease-in-out infinite; }
+  .steam path:nth-child(2) { animation-delay:.6s; }
+  .steam path:nth-child(3) { animation-delay:1.2s; }
+  @keyframes steam { 0% { transform:translateY(8px); opacity:0; } 50% { opacity:.9; } 100% { transform:translateY(-14px); opacity:0; } }
+  .badge { position:absolute; left:-14px; bottom:12%; background:var(--cream); border:1.5px solid var(--bean); border-radius:14px; padding:10px 14px; font-size:14px; transform:rotate(-5deg); }
+  .badge b { display:block; font-family:'Playfair Display',serif; font-size:22px; }
+
+  .menu-sec { background:var(--cream-2); padding:64px 0; }
+  .sec-title { display:flex; justify-content:space-between; align-items:end; gap:20px; flex-wrap:wrap; margin-bottom:28px; }
+  .sec-title h2 { font-size:clamp(34px,5vw,56px); }
+  .tabs { display:flex; gap:8px; flex-wrap:wrap; }
+  .tab { border:1.5px solid var(--bean); background:transparent; border-radius:99px; padding:8px 16px; font-weight:500; }
+  .tab.on { background:var(--bean); color:var(--cream); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:16px; }
+  .item { background:var(--cream); border-radius:20px; padding:18px; display:flex; flex-direction:column; gap:8px; }
+  .item .pic { height:120px; border-radius:14px; display:grid; place-items:center; font-size:54px; }
+  .item h3 { font-size:21px; }
+  .item p { margin:0; font-size:14px; color:var(--muted); flex:1; }
+  .item .row { display:flex; justify-content:space-between; align-items:center; margin-top:6px; }
+  .price { font-weight:600; font-size:17px; }
+  .qty { display:flex; align-items:center; gap:10px; }
+  .qty button { width:34px; height:34px; border-radius:50%; border:0; background:var(--bean); color:var(--cream); font-size:18px; line-height:1; }
+  .qty button.minus { background:transparent; color:var(--bean); border:1.5px solid var(--bean); }
+  .qty span { min-width:14px; text-align:center; font-weight:600; }
+
+  .info { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; padding:64px 0; }
+  .info div { border-top:1.5px solid var(--bean); padding-top:14px; }
+  .info b { display:block; font-family:'Playfair Display',serif; font-size:22px; margin-bottom:4px; }
+  .info span { color:var(--muted); }
+
+  .cartbar { position:fixed; left:50%; bottom:18px; transform:translate(-50%,140%); transition:transform .35s cubic-bezier(.2,.9,.3,1.2); background:var(--bean); color:var(--cream); border-radius:99px; padding:10px 10px 10px 22px; display:flex; align-items:center; gap:18px; box-shadow:0 14px 40px rgba(43,29,20,.35); z-index:10; width:max-content; max-width:calc(100% - 32px); }
+  .cartbar.show { transform:translate(-50%,0); }
+  .cartbar .btn { background:var(--terra); }
+
+  .modal-bg { position:fixed; inset:0; background:rgba(43,29,20,.55); display:none; align-items:center; justify-content:center; padding:16px; z-index:20; }
+  .modal-bg.show { display:flex; }
+  .modal { background:var(--cream); border-radius:24px; padding:26px; width:100%; max-width:440px; max-height:90vh; overflow:auto; }
+  .modal h3 { font-size:28px; margin-bottom:14px; }
+  .lines { list-style:none; padding:0; margin:0 0 14px; }
+  .lines li { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed #cdbfa9; }
+  .total { display:flex; justify-content:space-between; font-weight:600; font-size:18px; margin-bottom:16px; }
+  label { display:block; font-size:14px; color:var(--muted); margin:10px 0 4px; }
+  input, select { width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid #cdbfa9; background:#fff; font:inherit; }
+  .modal .btn { width:100%; margin-top:18px; }
+  .wa { background:#e7f7e2; border-radius:16px; padding:14px; white-space:pre-wrap; font-size:14px; margin:12px 0; }
+  .close { float:right; background:none; border:0; font-size:26px; line-height:1; color:var(--muted); }
+  footer { text-align:center; padding:30px 0 90px; color:var(--muted); font-size:14px; }
+
+  @media (max-width:760px) {
+    .hero { grid-template-columns:1fr; padding-top:10px; }
+    .cup { max-width:320px; justify-self:center; width:100%; }
+    .info { grid-template-columns:1fr; }
+    .nav .hours { display:none; }
+    .btn.ghost { margin:10px 0 0; }
+  }
+</style>
+</head>
+<body>
+<div class="demo-bar">Демо-проект, кофейня вымышленная. Сделано: <a href="../../">асан.dev</a></div>
+
+<div class="wrap">
+  <header class="nav">
+    <div class="brand">Тёплый <i>угол</i></div>
+    <div class="hours"><span class="open-dot"></span>Открыто до 22:00 · ул. Примерная, 12</div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Кофе, который <em>ждёт</em> вас готовым</h1>
+      <p>Закажите заранее и заберите без очереди. Обжариваем зерно сами, десерты печём каждое утро.</p>
+      <button class="btn" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Собрать заказ</button>
+      <button class="btn ghost" onclick="document.getElementById('info').scrollIntoView({behavior:'smooth'})">Где мы</button>
+    </div>
+    <div class="cup">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <g class="steam"><path d="M78 52c-8-10 8-16 0-28"/><path d="M100 52c-8-10 8-16 0-28"/><path d="M122 52c-8-10 8-16 0-28"/></g>
+        <path d="M50 70h100l-10 80a20 20 0 0 1-20 18H80a20 20 0 0 1-20-18z" fill="#f6efe4"/>
+        <path d="M148 86h10a18 18 0 0 1 0 36h-14" fill="none" stroke="#f6efe4" stroke-width="10"/>
+        <ellipse cx="100" cy="72" rx="50" ry="8" fill="#2b1d14"/>
+      </svg>
+      <div class="badge"><b>7 мин</b>и заказ готов</div>
+    </div>
+  </section>
+</div>
+
+<section class="menu-sec" id="menu">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2>Меню</h2>
+      <div class="tabs" id="tabs"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="info" id="info">
+    <div><b>Адрес</b><span>ул. Примерная, 12, вход со двора</span></div>
+    <div><b>Часы</b><span>Пн–Пт 8:00–22:00<br>Сб–Вс 9:00–22:00</span></div>
+    <div><b>Оплата</b><span>Kaspi QR или наличными на кассе</span></div>
+  </section>
+</div>
+
+<footer>© Тёплый угол · демо-сайт</footer>
+
+<div class="cartbar" id="cartbar">
+  <span id="cartinfo">0 позиций · 0 ₸</span>
+  <button class="btn" id="checkout">Оформить</button>
+</div>
+
+<div class="modal-bg" id="modal">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<script>
+const MENU = [
+  { id:1, cat:'Кофе', name:'Капучино', desc:'Двойной эспрессо и молочная пена', price:1200, pic:'☕', bg:'#e9d5bd' },
+  { id:2, cat:'Кофе', name:'Флэт уайт', desc:'Крепче капучино, меньше пены', price:1400, pic:'☕', bg:'#dcc3a5' },
+  { id:3, cat:'Кофе', name:'Раф халва', desc:'Сливки, ваниль и кунжутная халва', price:1700, pic:'🥛', bg:'#efe0c7' },
+  { id:4, cat:'Кофе', name:'Американо', desc:'Эспрессо и горячая вода', price:900, pic:'☕', bg:'#d6bb98' },
+  { id:5, cat:'Не кофе', name:'Матча латте', desc:'Японский чай на молоке', price:1600, pic:'🍵', bg:'#d7e2bf' },
+  { id:6, cat:'Не кофе', name:'Какао', desc:'Настоящий шоколад, маршмеллоу', price:1300, pic:'🍫', bg:'#d9bfae' },
+  { id:7, cat:'Десерты', name:'Чизкейк', desc:'Нью-Йорк, кусок 150 г', price:1800, pic:'🍰', bg:'#f2dccb' },
+  { id:8, cat:'Десерты', name:'Круассан', desc:'Французское масло, печём утром', price:900, pic:'🥐', bg:'#f0d9a8' },
+  { id:9, cat:'Десерты', name:'Баурсак-пончик', desc:'С солёной карамелью', price:700, pic:'🍩', bg:'#f3cfb6' }
+];
+const cats = ['Всё', ...new Set(MENU.map(m => m.cat))];
+let cat = 'Всё';
+const cart = {};
+const fmt = n => n.toLocaleString('ru-RU') + ' ₸';
+
+function renderTabs() {
+  tabs.innerHTML = cats.map(c => `<button class="tab ${c===cat?'on':''}" data-c="${c}">${c}</button>`).join('');
+}
+function renderGrid() {
+  grid.innerHTML = MENU.filter(m => cat==='Всё' || m.cat===cat).map(m => `
+    <div class="item">
+      <div class="pic" style="background:${m.bg}">${m.pic}</div>
+      <h3>${m.name}</h3><p>${m.desc}</p>
+      <div class="row"><span class="price">${fmt(m.price)}</span>
+        <div class="qty">${cart[m.id] ? `<button class="minus" data-d="-1" data-id="${m.id}">−</button><span>${cart[m.id]}</span>` : ''}
+        <button data-d="1" data-id="${m.id}">+</button></div>
+      </div>
+    </div>`).join('');
+}
+function renderCart() {
+  const ids = Object.keys(cart);
+  const count = ids.reduce((s,id) => s + cart[id], 0);
+  const sum = ids.reduce((s,id) => s + cart[id] * MENU.find(m => m.id==id).price, 0);
+  cartinfo.textContent = `${count} ${count===1?'позиция':count<5?'позиции':'позиций'} · ${fmt(sum)}`;
+  cartbar.classList.toggle('show', count > 0);
+  return sum;
+}
+tabs.onclick = e => { const c = e.target.dataset.c; if (!c) return; cat = c; renderTabs(); renderGrid(); };
+grid.onclick = e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const id = b.dataset.id; cart[id] = (cart[id]||0) + +b.dataset.d;
+  if (cart[id] <= 0) delete cart[id];
+  renderGrid(); renderCart();
+};
+
+function slots() {
+  const out = []; const d = new Date(); d.setMinutes(Math.ceil((d.getMinutes()+10)/10)*10, 0, 0);
+  for (let i = 0; i < 8; i++) { out.push(d.toTimeString().slice(0,5)); d.setMinutes(d.getMinutes()+10); }
+  return out;
+}
+checkout.onclick = () => {
+  const sum = renderCart();
+  modalBody.innerHTML = `
+    <button class="close" onclick="modal.classList.remove('show')">×</button>
+    <h3>Ваш заказ</h3>
+    <ul class="lines">${Object.keys(cart).map(id => { const m = MENU.find(x => x.id==id); return `<li><span>${m.name} × ${cart[id]}</span><span>${fmt(m.price*cart[id])}</span></li>`; }).join('')}</ul>
+    <div class="total"><span>Итого</span><span>${fmt(sum)}</span></div>
+    <form id="f">
+      <label>Имя</label><input name="name" required placeholder="Как к вам обращаться">
+      <label>Заберу в</label><select name="time">${slots().map(t => `<option>${t}</option>`).join('')}</select>
+      <button class="btn">Отправить заказ</button>
+    </form>`;
+  modal.classList.add('show');
+  f.onsubmit = ev => {
+    ev.preventDefault();
+    const data = new FormData(f);
+    const text = `Новый заказ ☕\nИмя: ${data.get('name')}\nЗаберёт в ${data.get('time')}\n\n` +
+      Object.keys(cart).map(id => { const m = MENU.find(x => x.id==id); return `• ${m.name} × ${cart[id]}`; }).join('\n') +
+      `\n\nИтого: ${fmt(sum)}`;
+    modalBody.innerHTML = `
+      <button class="close" onclick="modal.classList.remove('show')">×</button>
+      <h3>Заказ принят!</h3>
+      <p>В настоящем сайте вот такое сообщение сразу придёт владельцу кофейни в WhatsApp:</p>
+      <div class="wa">${text.replace(/</g,'&lt;')}</div>
+      <button class="btn" onclick="modal.classList.remove('show')">Понятно</button>`;
+    Object.keys(cart).forEach(k => delete cart[k]); renderGrid(); renderCart();
+  };
+};
+modal.onclick = e => { if (e.target === modal) modal.classList.remove('show'); };
+
+renderTabs(); renderGrid(); renderCart();
+</script>
+</body>
+</html>
