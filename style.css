@@ -19,7 +19,7 @@ body {
   color: var(--paper);
   font: 400 17px/1.5 var(--text);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;   /* не hidden: hidden ломает position: sticky */
 }
 ::selection { background: var(--lime); color: var(--ink); }
 a { color: inherit; }
@@ -43,9 +43,12 @@ h1, h2, h3 { font-family: var(--display); margin: 0; }
 .nav-cta { border: 1.5px solid #fff; border-radius: 99px; padding: 6px 14px; }
 
 /* 1. Первый экран */
-.hero { height: 100vh; height: 100svh; }
+/* Высота 240% экрана: 100% сам экран и 140% прокрутки, пока буквы разлетаются.
+   Закрепление через CSS sticky, а не через JS: Safari на айфоне ломал JS-закрепление */
+.hero { height: 240vh; height: 240svh; position: relative; }
 .hero-stage {
-  position: relative;
+  position: sticky;
+  top: 0;
   height: 100vh;
   height: 100svh;
   display: flex;
@@ -187,10 +190,11 @@ mark { background: var(--lime); color: var(--ink); padding: 0 .15em; border-radi
 .price-note { max-width: 980px; margin: 6vh auto 0; color: var(--muted); }
 
 /* 4. Работы: горизонтальная лента */
-.work { background: var(--paper); color: var(--ink); overflow: hidden; }
-.work-pin { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 12vh 0 8vh; }
+.work { background: var(--paper); color: var(--ink); overflow: clip; position: relative; }
+.work-pin { position: sticky; top: 0; overflow: hidden; min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 12vh 0 8vh; }
 .work .sec-head { padding: 0 clamp(16px, 4vw, 40px); margin-bottom: 5vh; }
 .work .sec-num { color: var(--orange); }
+.swipe-hint { display: none; margin: 0; flex-basis: 100%; font-size: 14px; opacity: .6; }
 .work-track { display: flex; gap: 3vw; padding: 0 clamp(16px, 4vw, 40px); width: max-content; }
 .panel {
   width: min(78vw, 860px);
@@ -270,7 +274,19 @@ mark { background: var(--lime); color: var(--ink); padding: 0 .15em; border-radi
   .s2 { top: 13%; right: 6vw; }
   .s3 { bottom: 18%; right: 8vw; }
   .card { min-height: 60vh; top: calc(10vh + var(--i, 0) * 16px); }
-  .panel { width: 84vw; grid-template-columns: 1fr; min-height: 66vh; align-content: start; }
+  .panel { width: 84vw; grid-template-columns: 1fr; min-height: 66vh; align-content: start; scroll-snap-align: center; }
+  /* На телефоне лента работ листается пальцем вбок, без привязки к вертикальному скроллу */
+  .work-pin { position: static; min-height: 0; overflow: visible; }
+  .work-track {
+    width: auto;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 8px;
+  }
+  .work-track::-webkit-scrollbar { display: none; }
+  .swipe-hint { display: block; }
   .mock-body { min-height: 0; }
   .steps li { grid-template-columns: 64px 1fr; }
 }
@@ -278,6 +294,8 @@ mark { background: var(--lime); color: var(--ink); padding: 0 .15em; border-radi
 /* Без анимаций для тех, кто их отключил */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+  .hero { height: 100vh; height: 100svh; }
+  .work-pin { position: static; }
   .work-track { width: auto; flex-direction: column; }
   .panel { width: 100%; }
 }

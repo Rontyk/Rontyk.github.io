@@ -29,6 +29,9 @@
   if (!window.gsap || !window.ScrollTrigger) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   gsap.registerPlugin(ScrollTrigger);
+  // На айфоне адресная строка прячется и меняет высоту окна во время скролла.
+  // Без этого ScrollTrigger пересчитывал позиции посреди прокрутки, и блоки съезжали
+  ScrollTrigger.config({ ignoreMobileResize: true });
 
   var rand = gsap.utils.random;
   var vw = function () { return window.innerWidth; };
@@ -63,8 +66,7 @@
     scrollTrigger: {
       trigger: '.hero',
       start: 'top top',
-      end: '+=140%',
-      pin: true,
+      end: 'bottom bottom',   // .hero-stage закреплен через CSS sticky
       scrub: 0.7,
       invalidateOnRefresh: true
     }
@@ -138,23 +140,39 @@
   window.addEventListener('resize', stackCards);
   stackCards();
 
-  // 4. Работы: лента едет вбок, пока скроллишь вниз
+  // 4. Работы: на компьютере лента едет вбок, пока скроллишь вниз.
+  // Блок закреплен через CSS sticky, а секция вытягивается на длину ленты.
+  // На телефоне ленту листают пальцем (см. style.css), здесь ничего не делаем
+  var work = document.querySelector('.work');
+  var workPin = document.querySelector('.work-pin');
   var track = document.querySelector('.work-track');
   var dist = function () { return Math.max(0, track.scrollWidth - vw()); };
-  gsap.to(track, {
-    x: function () { return -dist(); },
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.work',
-      start: 'top top',
-      end: function () { return '+=' + dist(); },
-      pin: true,
-      scrub: 0.8,
-      invalidateOnRefresh: true
-    }
+  gsap.matchMedia().add('(min-width: 761px)', function () {
+    function sizeWork() { work.style.height = (workPin.offsetHeight + dist()) + 'px'; }
+    sizeWork();
+    ScrollTrigger.addEventListener('refreshInit', sizeWork);
+    gsap.to(track, {
+      x: function () { return -dist(); },
+      ease: 'none',
+      scrollTrigger: {
+        trigger: work,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.8,
+        invalidateOnRefresh: true
+      }
+    });
+    return function () {
+      ScrollTrigger.removeEventListener('refreshInit', sizeWork);
+      work.style.height = '';
+    };
   });
 
-  // 5. Шаги выезжают по одному и уезжают обратно при скролле вверх
+  // 5. Шаги выезжают по одному и уезжают обратно при скролле вверх.
+  // Только на компьютере: во встроенном браузере Threads и Instagram на айфоне
+  // скролл-анимации не срабатывали, и текст оставался невидимым
+  var desktop = window.matchMedia('(min-width: 761px) and (pointer: fine)').matches;
+  if (desktop) {
   gsap.utils.toArray('.steps li').forEach(function (li, i) {
     gsap.from(li, {
       x: i % 2 ? 120 : -120,
@@ -169,10 +187,13 @@
       scrollTrigger: { trigger: h, start: 'top 95%', end: 'top 65%', scrub: 0.5 }
     });
   });
+  }
 
   // 6. «Напиши мне» въезжает с двух сторон
   gsap.from('.cb-row:first-child', { xPercent: -40, ease: 'none', scrollTrigger: { trigger: '.contact', start: 'top bottom', end: 'top 20%', scrub: 0.5 } });
   gsap.from('.cb-row:last-child', { xPercent: 40, ease: 'none', scrollTrigger: { trigger: '.contact', start: 'top bottom', end: 'top 20%', scrub: 0.5 } });
 
+  // Шрифты и картинки догружаются позже и меняют высоту блоков: пересчитываем позиции
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
 })();
